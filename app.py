@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 
+# Function to recommend movies based on selected movie
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
@@ -11,9 +12,11 @@ def recommend(movie):
     return recommended_movies
 
 # Load the movies list and similarity matrix
-movies_list = pickle.load(open("movie_dict.pkl", 'rb'))
+with open("movie_dict.pkl", 'rb') as f:
+    movies_list = pickle.load(f)
 movies = pd.DataFrame(movies_list)
-similarity = pickle.load(open("similarity.pkl", 'rb'))
+with open("similarity.pkl", 'rb') as f:
+    similarity = pickle.load(f)
 
 # Streamlit user interface
 st.title('Movie Recommendation System')
